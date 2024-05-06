@@ -1,0 +1,22 @@
+{
+  "name": "fresh-fruit",
+  "version": "1.0.0",
+  "description": "An application which uses an online form to update and save a PDF",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dieterichelizabeth/fresh-fruit.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dieterichelizabeth/fresh-fruit/issues"
+  },
+  "homepage": "https://github.com/dieterichelizabeth/fresh-fruit#readme",
+  "dependencies": {
+    "pdf-lib": "^1.17.1"
+  }
+}
