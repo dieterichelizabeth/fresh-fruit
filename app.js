@@ -1,43 +1,22 @@
-const { PDFDocument } = require("pdf-lib");
+// Imports
+const express = require("express");
+const path = require("path");
+const routes = require("./routes");
 
-const { readFile, writeFile } = require("fs/promises");
+// App setup
+const app = express();
+const PORT = process.env.PORT || 3001;
 
-async function getFieldNames(input) {
-  try {
-    const pdfDoc = await PDFDocument.load(await readFile(input));
+// App Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(routes);
 
-    // Read the PDF to get the field names
-    const formFields = pdfDoc.getForm().getFields();
-    const fieldNames = formFields.map((f) => f.getName());
-    console.log(fieldNames);
-  } catch (err) {
-    console.log(err);
-  }
-}
+// serve the React Application wildcard route
+app.use(express.static("client/build"));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
 
-async function createPDF(input, output) {
-  try {
-    // Get the PDF and Form
-    const pdfDoc = await PDFDocument.load(await readFile(input));
-    const form = pdfDoc.getForm();
-
-    // Update the Form Fields
-    form.getTextField("Name").setText("Mickey Mouse II");
-    form.getTextField("Work Phone").setText("(402)128-1938");
-    form.getTextField("Home Phone").setText("(402)128-9192");
-    form.getTextField("Email").setText("Mouse_Mickey@gmail.com");
-
-    // Save the Updated PDF
-    form.flatten();
-    const newPDF = await pdfDoc.save();
-    await writeFile(output, newPDF);
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-// ** Uncomment to see Field names in the console ** //
-// getFieldNames("pdf/test_pdf_editable.pdf");
-
-// ** Uncomment to create a new PDF ** //
-// createPDF("pdf/test_pdf_editable.pdf", "output/result.pdf");
+// Start the app
+app.listen(PORT, () => console.log("Now listening"));

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/dieterichelizabeth/fresh-fruit#readme",
   "dependencies": {
+    "express": "^4.19.2",
     "pdf-lib": "^1.17.1"
   }
 }
